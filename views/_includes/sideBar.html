@@ -1,0 +1,79 @@
+<nav class="sideBar">
+
+  <header>
+    <img class="sideBar--logo" src="/static/img/LOGO.webp" alt="Logo">
+    <img class="sideBar--logoIcon" src="/static/img/NicoLabs-ICON.webp" alt="Logo">
+  </header>
+  <div class="userInfos">
+    <div class="divider"></div>
+    <div class="user">
+      <i class="material-icons">account_circle</i>
+      <div class="username">
+        <p>{{session['nome']}}</p>
+        {% if session['admin'] %}
+        <div class="admin">
+          <i class="material-icons">admin_panel_settings</i>
+          <p>Admin</p>
+        </div>
+        {% endif %}
+        {% if session['operador'] %}
+        <div class="admin">
+          <i class="material-icons">engineering</i>
+          <p>Operador</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <main>
+    <ul class="sideBar--menuOptions">
+
+      <!-- PAINEL -->
+      <a {% if request.path == '/' %}class="selected"{% endif %} href="/">
+        <li>
+          <i class="material-icons">dashboard</i><span>Painel</span>
+        </li>
+      </a>
+
+      <!-- SENSORES -->
+      <a {% if request.path == '/sensores' %}class="selected"{% endif %} href="/sensores" class="{% if session['admin'] == False and session['operador'] == False %}blocked{%endif%}">
+        <li>
+          <i class="material-icons">sensors</i><span>Sensores</span>
+        </li>
+      </a>
+
+      <!-- ATIADORES -->
+      <a {% if request.path == '/atuadores' %}class="selected"{% endif %} href="/atuadores" class="{% if session['admin'] == False and session['operador'] == False %}blocked{%endif%}">
+        <li>
+          <i class="material-icons">lightbulb</i><span>Atuadores</span>
+        </li>
+      </a>
+
+      <!-- USUARIOS -->
+      <a {% if request.path == '/usuarios' %}class="selected"{% endif %} href="/usuarios" class="{% if session['admin'] == False%}blocked{%endif%}">
+        <li>
+          <i class="material-icons">group</i><span>Usuários</span>
+        </li>
+      </a>
+
+      <!-- LEITURAS -->
+      <a {% if request.path == '/leituras' %}class="selected"{% endif %} href="/leituras">
+        <li>
+          <i class="material-icons">find_in_page</i><span>Leituras</span>
+        </li>
+      </a>
+
+    </ul>
+
+  </main>
+  <footer>
+    <a href="/auth/logout" class="logoutBtn">
+      <i class="material-icons">logout</i>
+      <p>Sair</p>
+    </a>
+    <span class="sideBar--toggleIcon" title="Recolher menu"><i class="material-icons">chevron_left</i></span>
+  </footer>
+
+</nav>

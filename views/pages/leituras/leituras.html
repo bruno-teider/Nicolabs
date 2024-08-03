@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% include '_includes/sideBar.html'%}
+    <section class="page">
+
+        <div class="banner">
+            <h2>Leituras</h2>
+        </div>
+
+        <div class="usuarios--container">
+
+            <div class="usuarios--listagem">
+                {% for leitura in leituras %}
+                    <div class="usuarios--listagem__userCard">
+                        <div class="userInfos">
+                            <i class="material-icons">settings_remote</i>
+                            <div class="line"></div>
+                            <h3>{{leitura.sensor}}</h3>
+                            <p style="flex-grow: 1;">{{leitura.medicao}}</p>
+                            <div class="line"></div>
+                            <p style="text-align: end;">{{leitura.data}}</p>
+                        </div>           
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

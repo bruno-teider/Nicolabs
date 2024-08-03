@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% include '_includes/sideBar.html'%}
+    <section class="page">
+
+        <div class="banner">
+            <h2>Atuadores</h2>
+        </div>
+
+        <div class="atuadores--container">
+
+            <div class="atuadores--dados">
+
+                <!-- ATUADORES TOTAIS -->
+                <div class="atuadores--dados__card">
+                    <h3>Total de Atuadores</h3>
+                    <div>
+                        <i class="material-icons">lightbulb</i>
+                        <p>{{ total }}</p>
+                    </div>
+                </div>
+
+                <!-- ATUADORES ATIVOS -->
+                <div class="atuadores--dados__card">
+                    <h3>Atuadores Ativos</h3>
+                    <div>
+                        <i class="material-icons">tips_and_updates</i>
+                        <p>{{ totalAtivos }}</p>
+                    </div>
+                </div>
+
+                <!-- ADD ATUADOR -->
+                <div class="atuadores--dados__card cardAddAtuador" onclick="open_popupAddAtuador()">
+                    <h3>Adicionar Atuador</h3>
+                    <div>
+                        <i class="material-icons">add_circle_outline</i>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="atuadores--listagem">
+                {% for atuador in atuadores %}
+                    <div class="atuadores--listagem__atuadorCard">
+                        <div class="atuadorInfos">
+                            <i class="material-icons">{% if atuador.tipo == 'LED' %}lightbulb_circle{% else %}volume_up{% endif %}</i>
+                            <div class="line"></div>
+                            <h3>{{ atuador.apelido }}</h3>
+                            <p>{{ atuador.medicao }}</p>
+                            <span>{% if atuador.ativo %} <span class="ativo">Ativo</span> {%else%} <span class="atuador">Inativo</span> {% endif %}</span>
+                        </div>
+                        <div class="atuadorOptions">
+                            <i class="material-icons edit" onclick="open_popupEditarAtuador('{{ atuador.id }}', '{{ atuador.apelido}}', '{{ atuador.ativo }}')">edit</i>
+                            <a href="/removerAtuador/{{ atuador.id }}"><i class="material-icons delete">delete</i></a>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- POPUP ADD SENSOR -->
+    <dialog id="modal--addAtuador">
+        <div class="container">
+            <form action="/criaAtuador" method="POST">
+                <legend>Adicionar atuador</legend>
+                <div class="inputContainer">
+                    <label for="nomeAddAtuador">Nome</label>
+                    <input type="text" name="nomeAddAtuador" id="nomeAddAtuador" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="tipoAddAtuador">Tipo</label>
+                    <select id="tipoAddAtuador" name="tipoAddAtuador">
+                        <option value="LED" selected>LED</option>
+                        <option value="Buzzer">Buzzer</option>
+                    </select>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="ativoAddAtuador">Ativo</label>
+                    <select id="ativoAddAtuador" name="ativoAddAtuador">
+                        <option value="True" selected>Sim</option>
+                        <option value="False">Não</option>
+                    </select>
+                </div>
+      
+                <div class="btns">
+                    <button class="btnCriar" type="submit">Salvar</button>
+                    <button class="btnVoltar" type="button" onclick="closeModal_popupAddAtuador()">Cancelar</button>
+                </div>
+      
+            </form>
+        </div>
+    </dialog>
+
+    <!-- POPUP EDITAR SENSOR -->
+    <dialog id="modal--editarAtuador">
+        <div class="container">
+            <form action="/editarAtuador" method="POST">
+                <legend>Editar atuador</legend>
+                <input type="hidden" name="idEditarAtuador" id="idEditarAtuador">
+                <div class="inputContainer">
+                    <label for="nomeEditarAtuador">Nome</label>
+                    <input type="text" name="nomeEditarAtuador" id="nomeEditarAtuador" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="ativoEditarAtuador">Ativo</label>
+                    <select id="ativoEditaAtuador" name="ativoEditarAtuador">
+                        <option value="True" selected>Sim</option>
+                        <option value="False">Não</option>
+                    </select>
+                </div>
+        
+                <div class="btns">
+                    <button class="btnEditar" type="submit">Editar</button>
+                    <button class="btnVoltar" type="button" onclick="closeModal_popupEditarAtuador()">Cancelar</button>
+                </div>
+        
+            </form>
+        </div>
+    </dialog>
+
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% include '_includes/sideBar.html'%}
+    <section class="page">
+
+        <div class="banner">
+            <h2>Usuários</h2>
+        </div>
+
+        <div class="usuarios--container">
+
+            <div class="usuarios--dados">
+
+                <!-- USUARIOS TOTAIS -->
+                <div class="usuarios--dados__card">
+                    <h3>Total de Usuários</h3>
+                    <div>
+                        <i class="material-icons">group</i>
+                        <p>{{ total }}</p>
+                    </div>
+                </div>
+
+                <!-- USUARIOS ADMINISTRADORES -->
+                <div class="usuarios--dados__card">
+                    <h3>Usuarios Administradores</h3>
+                    <div>
+                        <i class="material-icons">admin_panel_settings</i>
+                        <p>{{ totalAdmins }}</p>
+                    </div>
+                </div>
+
+                <!-- ADD USUÁRIO -->
+                <div class="usuarios--dados__card cardAddUsuario" onclick="open_popupAddUser()">
+                    <h3>Adicionar Usuário</h3>
+                    <div>
+                        <i class="material-icons">person_add</i>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="usuarios--listagem">
+                {% for user in users %}
+                    <div class="usuarios--listagem__userCard">
+                        <div class="userInfos">
+                            <i class="material-icons">portrait</i>
+                            <div class="line"></div>
+                            <h3>{{user.name}}</h3>
+                            <p>{{user.email}}</p>
+                            <span>{% if user.admin %} <span class="admin">Administrador</span> {%else%} <span class="user">Usuario</span> {% endif %}</span>
+                            <span>{% if user.operador %} <span class="operador">Operador</span>{% endif %}</span>
+                        </div>
+                        <div class="userOptions">
+                            <i class="material-icons edit" onclick="open_popupEditarUser('{{ user.id }}', '{{ user.email }}', '{{ user.name }}', '{{ user.senha }}', '{{ user.admin }}', '{{ user.operador }}')">edit</i>
+                            <a href="/auth/removerUsuario/{{ user.id }}"><i class="material-icons delete">delete</i></a>
+                        </div>
+
+                        
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- POPUP ADD USUÁRIO -->
+    <dialog id="modal--addUsuario">
+        <div class="container">
+            <form action="/auth/criaUsuario" method="POST">
+                <legend>Criar usuário</legend>
+                <div class="inputContainer">
+                    <label for="emailAddUser">Email</label>
+                    <input type="email" name="emailAddUser" id="emailAddUser" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="nomeAddUser">Nome</label>
+                    <input type="text" name="nomeAddUser" id="nomeAddUser" required>
+                </div>
+      
+                <div class="inputContainer">
+                    <label for="senhaAddUser">Senha</label>
+                    <input type="password" name="senhaAddUser" id="senhaAddUser" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="adminAddUser">Administrador</label>
+                    <select id="adminAddUser" name="adminAddUser">
+                        <option value="True">Sim</option>
+                        <option value="False" selected>Não</option>
+                    </select>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="operadorAddUser">Operador</label>
+                    <select id="operadorAddUser" name="operadorAddUser">
+                        <option value="True">Sim</option>
+                        <option value="False" selected>Não</option>
+                    </select>
+                </div>
+      
+                <div class="btns">
+                    <button class="btnCriar" type="submit">Salvar</button>
+                    <button class="btnVoltar" type="button" onclick="closeModal_popupAddUser()">Cancelar</button>
+                </div>
+      
+            </form>
+        </div>
+    </dialog>
+
+    <!-- POPUP EDITAR USUÁRIO -->
+    <dialog id="modal--editarUsuario">
+        <div class="container">
+            <form action="/auth/editarUsuario" method="POST">
+                <legend>Editar usuário</legend>
+                <input type="hidden" name="idEditarUser" id="idEditarUser">
+                <div class="inputContainer">
+                    <label for="emailEditarUser">Email</label>
+                    <input type="email" name="emailEditarUser" id="emailEditarUser" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="nomeEditarUser">Nome</label>
+                    <input type="text" name="nomeEditarUser" id="nomeEditarUser" required>
+                </div>
+        
+                <div class="inputContainer">
+                    <label for="senhaEditarUser">Senha</label>
+                    <input type="password" name="senhaEditarUser" id="senhaEditarUser" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="adminEditarUser">Administrador</label>
+                    <select id="adminEditarUser" name="adminEditarUser">
+                        <option value="True">Sim</option>
+                        <option value="False" selected>Não</option>
+                    </select>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="operadorEditarUser">Operador</label>
+                    <select id="operadorEditarUser" name="operadorEditarUser">
+                        <option value="True">Sim</option>
+                        <option value="False" selected>Não</option>
+                    </select>
+                </div>
+        
+                <div class="btns">
+                    <button class="btnEditar" type="submit">Editar</button>
+                    <button class="btnVoltar" type="button" onclick="closeModal_popupEditarUser()">Cancelar</button>
+                </div>
+        
+            </form>
+        </div>
+    </dialog>
+{% endblock %}

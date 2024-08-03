@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% include '_includes/sideBar.html'%}
+    <section class="page">
+
+        <div class="banner">
+            <h2>Sensores</h2>
+        </div>
+
+        <div class="sensores--container">
+
+            <div class="sensores--dados">
+
+                <!-- SENSORES TOTAIS -->
+                <div class="sensores--dados__card">
+                    <h3>Total de Sensores</h3>
+                    <div>
+                        <i class="material-icons">sensors</i>
+                        <p>{{ total }}</p>
+                    </div>
+                </div>
+
+                <!-- SENSORES ATIVOS -->
+                <div class="sensores--dados__card">
+                    <h3>Sensores Ativos</h3>
+                    <div>
+                        <i class="material-icons">online_prediction</i>
+                        <p>{{ totalAtivos }}</p>
+                    </div>
+                </div>
+
+                <!-- ADD SENSOR -->
+                <div class="sensores--dados__card cardAddSensor" onclick="open_popupAddSensor()">
+                    <h3>Adicionar Sensor</h3>
+                    <div>
+                        <i class="material-icons">add_circle_outline</i>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="sensores--listagem">
+                {% for sensor in sensores %}
+                    <div class="sensores--listagem__sensorCard">
+                        <div class="sensorInfos">
+                            <i class="material-icons">contactless</i>
+                            <div class="line"></div>
+                            <h3>{{sensor.apelido}}</h3>
+                            <p>{{sensor.medicao}}</p>
+                            <span>{% if sensor.ativo == True %} <span class="ativo">Ativo</span> {%else%} <span class="sensor">Inativo</span> {% endif %}</span>
+                        </div>
+                        <div class="sensorOptions">
+                            <i class="material-icons edit" onclick="open_popupEditarSensor('{{ sensor.id }}', '{{ sensor.apelido }}', '{{ sensor.medicao }}', '{{ sensor.ativo }}')">edit</i>
+                            <a href="/removerSensor/{{ sensor.id }}"><i class="material-icons delete">delete</i></a>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- POPUP ADD SENSOR -->
+    <dialog id="modal--addSensor">
+        <div class="container">
+            <form action="/criaSensor" method="POST">
+                <legend>Adicionar sensor</legend>
+                <div class="inputContainer">
+                    <label for="nomeAddSensor">Nome</label>
+                    <input type="text" name="nomeAddSensor" id="nomeAddSensor" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="medicaoAddSensor">Medição</label>
+                    <input type="text" name="medicaoAddSensor" id="medicaoAddSensor" required>
+                </div>
+      
+                <div class="inputContainer">
+                    <label for="ativoAddSensor">Ativo</label>
+                    <select id="ativoAddSensor" name="ativoAddSensor">
+                        <option value="True" selected>Sim</option>
+                        <option value="False">Não</option>
+                    </select>
+                </div>
+      
+                <div class="btns">
+                    <button class="btnCriar" type="submit">Salvar</button>
+                    <button class="btnVoltar" type="button" onclick="closeModal_popupAddSensor()">Cancelar</button>
+                </div>
+      
+            </form>
+        </div>
+    </dialog>
+
+    <!-- POPUP EDITAR SENSOR -->
+    <dialog id="modal--editarSensor">
+        <div class="container">
+            <form action="/editarSensor" method="POST">
+                <legend>Editar usensor</legend>
+                <input type="hidden" name="idEditarSensor" id="idEditarSensor">
+                <div class="inputContainer">
+                    <label for="nomeEditarSensor">Nome</label>
+                    <input type="text" name="nomeEditarSensor" id="nomeEditarSensor" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="medicaoEditarSensor">Medição</label>
+                    <input type="text" name="medicaoEditarSensor" id="medicaoEditarSensor" required>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="ativoEditarSensor">Ativo</label>
+                    <select id="ativoEditarSensor" name="ativoEditarSensor">
+                        <option value="True" selected>Sim</option>
+                        <option value="False">Não</option>
+                    </select>
+                </div>
+        
+                <div class="btns">
+                    <button class="btnEditar" type="submit">Editar</button>
+                    <button class="btnVoltar" type="button" onclick="closeModal_popupEditarSensor()">Cancelar</button>
+                </div>
+        
+            </form>
+        </div>
+    </dialog>
+
+{% endblock %}

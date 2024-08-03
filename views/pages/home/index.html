@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<meta http-equiv="refresh" content="3">
+{% endblock %}
+
+{% block body %}
+    {% include '_includes/sideBar.html'%}
+    <section class="page">
+
+        <div class="banner">
+            <h2>Meu laboratório</h2>
+        </div>
+
+        <div class="dados">
+
+            <!-- TEMPERATURA -->
+            <div id="temperatura" class="dados--card">
+                <h3>Temperatura</h3>
+                <div>
+                    <i class="material-icons">device_thermostat</i>
+                    <p>{{ temperatura }}°C</p>
+                </div>
+                <i class="material-icons">tune</i>
+            </div>
+
+            <!-- HUMIDADE -->
+            <div id="umidade" class="dados--card">
+                <h3>Humidade</h3>
+                <div>
+                    <i class="material-icons">water_drop</i>
+                    <p>{{ umidade }}%</p>
+                </div>
+                <i class="material-icons">tune</i>
+            </div>
+
+            <!-- GAS -->
+            <div id="gas" class="dados--card">
+                <h3>Gás GLP</h3>
+                <div>
+                    <i class="material-icons">propane_tank</i>
+                    <p>{{ gas }}ppm</p>
+                </div>
+                <i class="material-icons">tune</i>
+            </div>
+
+        </div>
+
+        <div class="controlesRemotos">
+            {% if led %}
+            <div class="controleRemoto--card">
+                <h3>Acionar Led:</h3>
+                <form action="/acionaLed" method="GET">
+                    <button class="{% if led.ativo == True%}ativo{%endif%}" type="submit"><i class="material-icons">lightbulb</i></button>
+                </form>
+            </div>
+            {% endif %}
+
+            {% if buzzer %}
+            <div class="controleRemoto--card">
+                <h3>Acionar Buzzer:</h3>
+                <form action="/acionaBuzzer" method="GET">
+                    <button type="submit"><i class="material-icons">volume_up</i></button>
+                </form>
+            </div>
+            {% endif %}
+            
+        </div>
+    </section>
+    
+{% endblock %}

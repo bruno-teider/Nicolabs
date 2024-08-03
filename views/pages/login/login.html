@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="authBg">
+
+  <div class="container">
+      <div class="authBanner">
+          <img src="/static/img/LOGO02.webp" alt="Logo">
+      </div>
+  </div>
+
+  <div class="container authForms">
+      <form class="authForms--signin" action="/auth/postLogin" method="POST">
+          <legend>Entrar</legend>
+          <div class="inputContainer">
+              <label for="emailLogin">Email</label>
+              <input type="email" name="emailLogin" id="emailLogin" required>
+          </div>
+
+          <div class="inputContainer">
+              <label for="senhaLogin">Senha</label>
+              <input type="password" name="senhaLogin" id="senhaLogin" required>
+          </div>
+
+          <button type="submit" class="buttonLogin">Logar</button>
+
+          {% if error %}
+            <div class="msg error">{{error}}</div>
+          {% endif %}
+
+      </form>
+  </div>
+
+</div>
+
+{% endblock %}
