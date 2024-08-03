@@ -1,5 +1,5 @@
 # Nicolabs
-NicoLabs is a full-stack web application developed using Python and Flask for the back-end, with a structured MVC (Model-View-Controller) architecture, using Esp32 integration to get data and control actuators. The application interfaces with various hardware sensors and actuators, providing a comprehensive dashboard for monitoring and controlling these devices.
+NicoLabs is a full-stack web application developed using Python and Flask for the back-end, with a structured MVC (Model-View-Controller) architecture. The application interfaces with Esp32 and some hardware sensors and actuators, providing a comprehensive dashboard for monitoring and controlling these devices and data saving.
 
 ![image](https://github.com/user-attachments/assets/bcc5aa07-add5-4eeb-bb30-f505f4d074cc)
 
